@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {GoogleLogin} from 'react-google-login';
-import {FacebookLogin} from 'react-facebook-login';
+import {GoogleLogout} from 'react-google-login';
 import {PostUser} from '../services/PostUser';
 import {Redirect} from 'react-router-dom';
 
@@ -8,21 +8,44 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirectToReferrer: false
+      redirectToReferrer: false,
+      loggedIn: false,
+      user: {
+        username: '',
+        token: '',
+        pic: '',
+        entendres: 0
+      }
     }
     this.signup = this.signup.bind(this)
   }
 
-  signup(res,type){
+  componentDidMount() {
+    console.log('mounted');
+  }
+
+  signup(res, type) {
     let postData;
-    if(type === 'google' && res.w3.U3){
-      postData = {name: res.w3.ig, provider: type, email: res.w3.U3, provider_id: res.El, token: res.Zi.access_token, provider_pic: res.w3.Paa}
-    }
-    else if(type ==='facebook' && res.email){
-      postData = {name: res.name, provider: type, email: res.email, provider_id: res.id, token: res.accessToken, provider_pic: res.provider_pic}
+    if (type === 'google' && res.w3.U3) {
+      postData = {
+        username: res.w3.ig,
+        token: res.Zi.access_token,
+        pic: res.w3.Paa,
+        entendres: 0
+      }
     }
 
-    this.setState({redirectToReferrer: true});
+    console.log(postData);
+    this.setState({
+      redirectToReferrer: true,
+      loggedIn: true,
+      user: {
+        username: res.w3.ig,
+        token: res.Zi.access_token,
+        pic: res.w3.Paa,
+        entendres: 0
+      }
+    });
 
     // PostUser('sigup', postData).then(res => {
     //   let resJson = res;
@@ -35,27 +58,31 @@ class Login extends Component {
 
   render() {
 
-    if(this.state.redirectToReferrer){
-        return (<Redirect to={"/"}/>)
-    }
-
-    const responseFacebook = (response) => {
-      console.log(response);
-      this.signup(response, 'facebook');
-    }
+    // if (this.state.redirectToReferrer) {
+    //   return (<Redirect to={"/"}/>)
+    // }
 
     const responseGoogle = (response) => {
-      console.log(response);
+      if (!response) {
+        return;
+      }
       this.signup(response, 'google');
     }
 
-    return (<div className="Login">
-      <h1>This is the login page (left side)</h1>
-      <GoogleLogin clientId="18874699212-f8vj123kpm4phnqinar7bg2tnp0r52bf.apps.googleusercontent.com" buttonText="Sign up with Google" onSuccess={responseGoogle} onFailure={responseGoogle}/>
-      {/* <FacebookLogin appId="1508156479283064" autoLoad={true} fields="name,email,picture"
-        // onClick={componentClicked}
-        callback={responseFacebook}/> */}
-    </div>);
+    const logout = (response) => {
+      this.setState({redirectToReferrer: false})
+    }
+
+    if (!this.state.loggedIn) {
+      return (<div className="Login">
+        <h1>New 2!</h1>
+        <GoogleLogin clientId="18874699212-f8vj123kpm4phnqinar7bg2tnp0r52bf.apps.googleusercontent.com" buttonText="Sign in with Google" onSuccess={responseGoogle} onFailure={responseGoogle}/>
+      </div>);
+    } else {
+      return (<div className="Login">
+        <img className="profile-pic" src='' alt="profile picture"/> <GoogleLogout buttonText="Logout" onLogoutSuccess={logout}></GoogleLogout>
+      </div>);
+    }
   }
 }
 

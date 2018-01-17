@@ -1,5 +1,5 @@
 export function PostUser(type, userData){
-  let baseURL = '';
+  let baseURL = 'http://localhost:3000/';
   return new Promise((resolve, reject) => {
     fetch(baseURL + type, {
       method: 'POST',

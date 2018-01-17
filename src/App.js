@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import {Link} from 'react-router-dom'
 import Main from './Components/Main'
+import Login from './Components/Login'
 
 class App extends Component {
   render() {
@@ -10,14 +11,14 @@ class App extends Component {
       <header className="App-header">
         <div className="App-area-logo">
           <img src={logo} className="App-logo" alt="logo"/>
-          <h1 className="App-title">Entendre</h1>
+          <h1 className="App-title">App Name</h1>
         </div>
         <div className="App-area-search-mini">
           <input type="text"></input>
         </div>
         <div className="App-area-signin">
-          <Link to='/login'>Sign In</Link>
-          {/* <Login /> */}
+          {/* <Link to='/login'>Sign In</Link> */}
+          <Login />
         </div>
       </header>
       <Main/>
