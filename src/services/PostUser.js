@@ -1,9 +1,11 @@
 export function PostUser(type, userData){
-  let baseURL = 'http://localhost:3000/';
+  // https://galvanize-cors-proxy.herokuapp.com/
+  let baseURL = 'https://entendre.herokuapp.com/';
   return new Promise((resolve, reject) => {
     fetch(baseURL + type, {
       method: 'POST',
-      body: JSON.stringify(userData)
+      body: JSON.stringify(userData),
+      mode: "no-cors",
     })
     .then((response) => response.json())
     .then((res) => {
