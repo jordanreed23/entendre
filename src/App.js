@@ -38,7 +38,7 @@ class App extends Component {
         username: data.username,
         token: data.token,
         pic: data.pic,
-        entendres: data.entendres
+        contributions: data.contributions,
       },
       dropdown: false
     });
@@ -113,7 +113,7 @@ class App extends Component {
         </div>
       </header>
       <div onClick={this.hideDropdown}>
-        <Main/>
+        {/* <Main/> */}
       </div>
 
       <footer className="App-footer" onClick={this.hideDropdown}></footer>
