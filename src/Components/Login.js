@@ -4,8 +4,6 @@ import {GoogleLogout} from 'react-google-login';
 import gql from 'graphql-tag';
 import {graphql, compose} from 'react-apollo';
 
-import {PostUser} from '../services/PostUser';
-
 // import {Redirect} from 'react-router-dom';
 import './Login.css';
 
