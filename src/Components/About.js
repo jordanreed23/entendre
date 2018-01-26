@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
-// import './About.css';
+import './About.css';
 // import { Switch, Route } from 'react-router-dom'
 import {Link} from 'react-router-dom'
 
@@ -32,7 +32,8 @@ class About extends Component {
 
     return (
       <div className="About">
-
+        <p className="about-text">Entendre is a lyrics platform which uses an algorithm to calculate unique words for artists, albums, and songs. Start by searching an artist or clicking one of the top ranked wordsmiths.
+        </p>
       </div>
     )
   }

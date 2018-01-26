@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
-// import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 import Main from './Components/Main'
 import Login from './Components/Login'
+// import Form from 'react-router-form'
 
 const searchAPI = "https://api.musixmatch.com/ws/1.1/artist.search?format=jsonp&callback=callback&q_artist=";
 const searchFiller = "&page=1";
@@ -25,13 +26,18 @@ class App extends Component {
         pic: '',
         entendres: 0
       },
+      isSearched: false,
+      isArtists: false,
       dropdown: false,
       artistList: [],
       selectedArtist: null,
+      selectedArtistImg: '',
+      selectedArtistBio: '',
       albumList: [],
       selectedAlbum: null,
       songList: [],
-      selectedSong: null
+      selectedSong: null,
+      // topArtists: [],
     }
   }
 
@@ -88,7 +94,6 @@ class App extends Component {
       return res.text()
     }).then(data => {
       let newJson = JSON.parse(data.slice(9, data.length - 2))
-      console.log(newJson);
       let justArtists = newJson.message.body.artist_list;
       let cleanArtists = [];
       if (justArtists.length > 0) {
@@ -114,40 +119,50 @@ class App extends Component {
           res.json().then(data => {
             if (data.album) {
               if (data.album.length > 0) {
+                this.setState({selectedArtist: artist})
                 this.singleArtist(artist);
               }
             }
           });
         });
+      } else{
+        console.log("mutiple artist results", this.state.artistList);
+        this.setState({isArtists: true});
       }
     })
   }
 
-  searchArtists = (e) => {
-    e.preventDefault();
-    this.apiCall(e.target.artist.value);
-  }
-
   singleArtist(artist) {
-    // let newArtist = artist.replace(' ', '%20');
-    fetch(artistAlbums + artist).then(res => {
-      res.json().then(data => {
-
-        let cleanAlbums = [];
-        if (data.album !== null) {
-          for (var i = 0; i < data.album.length; i++) {
-            if (data.album[i].strReleaseFormat === 'Album') {
-              cleanAlbums.push({name: data.album[i].strAlbum, art: data.album[i].strAlbumThumb, idAlbum: data.album[i].idAlbum})
+    fetch("https://galvanize-cors-proxy.herokuapp.com/http://www.theaudiodb.com/api/v1/json/195003/search.php?s=" + artist).then(info => {
+      console.log(info);
+      this.setState({selectedArtistImg: info.artists[0].strArtistThumb, selectedArtistBio: info.artists[0].strBiographyEN});
+      console.log(this.state);
+      fetch(artistAlbums + artist).then(res => {
+        res.json().then(data => {
+          console.log(data);
+          let cleanAlbums = [];
+          if (data.album !== null) {
+            for (var i = 0; i < data.album.length; i++) {
+              if (data.album[i].strReleaseFormat === 'Album') {
+                cleanAlbums.push({name: data.album[i].strAlbum, art: data.album[i].strAlbumThumb, idAlbum: data.album[i].idAlbum})
+              }
             }
+            this.setState({albumList: cleanAlbums})
+            // console.log(this.state.albumList);
+          } else {
+            console.log("No albums found for " + artist);
           }
-          this.setState({albumList: cleanAlbums})
-          console.log(this.state.albumList);
-        } else {
-          console.log("No albums found for " + artist);
-        }
 
+        })
       })
     })
+  }
+
+  searchArtists = (e) => {
+    this.setState({isSearched: true})
+    console.log('in');
+    e.preventDefault();
+    this.apiCall(e.target.artist.value);
   }
 
   render() {
@@ -155,7 +170,7 @@ class App extends Component {
       <header className="App-header">
         <div className="App-area-logo" onClick={this.hideDropdown}>
           <img src={logo} className="App-logo" alt="logo"/>
-          <h1 className="App-title">Entendre</h1>
+          <h1 className="App-title"><Link className="App-title" to='/'>Entendre</Link></h1>
         </div>
         <form className="form-search" onSubmit={this.searchArtists}>
           <div className="box" onClick={this.hideDropdown}>
@@ -166,7 +181,7 @@ class App extends Component {
               <input type="search" id="search" name="artist" placeholder="Search Artists..."/>
             </div>
           </div>
-          <input hidden="hidden" type="submit" value="Send" className="submit-search"/>
+            <input hidden="hidden" type="submit" value="Send" className="submit-search"/>
         </form>
         <div className="App-area-signin">
           <Login state={this.state}
@@ -174,7 +189,8 @@ class App extends Component {
         </div>
       </header>
       <div onClick={this.hideDropdown}>
-        <Main state={this.state}/>
+        <Main state={this.state}
+        searchArtists={this.searchArtists}/>
       </div>
 
       <footer className="App-footer" onClick={this.hideDropdown}></footer>

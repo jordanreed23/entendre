@@ -1,0 +1,31 @@
+.Albums{
+  display: flex;
+  flex-direction: column;
+  /*margin-top: 90vh;*/
+}
+
+.name-heading, .list-heading {
+  /*font-family: 'PT Serif', serif;*/
+  color: #63717f;
+}
+
+.name-heading{
+    font-size: 2.6em;
+}
+
+.list-heading {
+  margin: 50px 0 10px 0;
+}
+
+.selection-links{
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 634px) {
+.home-search{
+  display: none;
+}
+.welcome-text{
+    display: none;
+}
+}

@@ -1,0 +1,15 @@
+.About{
+  margin-top: 100px;
+  font-size: 1.3em;
+  /*border-bottom: 2px solid black;*/
+  color: #73818f;
+}
+
+@media only screen and (max-width: 900px) {
+  .About{
+    margin-top: 5px;
+    font-size: 1.2em;
+    /*border-bottom: 2px solid black;*/
+    color: #73818f;
+  }
+}

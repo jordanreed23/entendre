@@ -1,0 +1,51 @@
+.Home{
+  display: flex;
+  flex-direction: column;
+  /*margin-top: 90vh;*/
+}
+.home-form-search {
+
+}
+
+.welcome-text, .wordsmiths {
+  /*font-family: 'PT Serif', serif;*/
+  color: #63717f;
+
+}
+
+.welcome-text{
+    font-size: 2.6em;
+}
+
+.wordsmiths {
+  margin: 50px 0 10px 0;
+}
+
+.home-search input#search{
+  width: 450px;
+  height: 2.6em;
+  background: #D2DCE0;
+  border: none;
+  font-size: 15pt;
+  float: left;
+  color: #63717f;
+  padding-left: 40px;
+  margin-left: 15px;
+  /*margin-left: 253px;*/
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.selection-links{
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 634px) {
+.home-search{
+  display: none;
+}
+.welcome-text{
+    display: none;
+}
+}
