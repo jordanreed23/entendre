@@ -14,11 +14,11 @@
   padding: 15px;
   color: white;
   height: 2.3em;
-  background: #1f1d38;
-  background: -moz-linear-gradient(top, #1f1d38 0%, #21293d 100%);
-  background: -webkit-linear-gradient(top, #1f1d38 0%,#21293d 100%);
-  background: linear-gradient(to bottom, #1f1d38 0%,#21293d 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1f1d38', endColorstr='#21293d',GradientType=0 );
+  background: #a8d0db;
+background: -moz-linear-gradient(top, #a8d0db 0%, #cee6ed 100%);
+background: -webkit-linear-gradient(top, #a8d0db 0%,#cee6ed 100%);
+background: linear-gradient(to bottom, #a8d0db 0%,#cee6ed 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a8d0db', endColorstr='#cee6ed',GradientType=0 );
 }
 
 .App-area-logo {
@@ -29,9 +29,10 @@
 .App-title {
   text-decoration: none;
   font-size: 1.5em;
-  font-family: 'Merienda One', cursive;
+  font-family: 'Fjalla One', sans-serif;
   /*font-family: 'Molle', cursive;*/
-  color: #63717f;
+  color: #43515f;
+  margin-left: 3px;
 }
 
 .App-intro {
@@ -41,17 +42,17 @@
 .container-1 input#search{
   width: 250px;
   height: 2.5em;
-  background: #D2DCE0;
+  background: #43515f;
   border: none;
   font-size: 10pt;
   float: left;
-  color: #63717f;
   padding-left: 40px;
   margin-left: 50%;
   /*margin-left: 253px;*/
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
+  color: #B4DAE8
 }
 
 .container-1 .icon{
@@ -60,7 +61,11 @@
   margin-left: 17px;
   margin-top: 17px;
   z-index: 1;
-  color: #4f5b66;
+  color: #749AA8;
+}
+
+input[type="search"]::-webkit-input-placeholder {
+color: #749AA8 !important;
 }
 
 @media only screen and (min-width: 635px) and (max-width: 900px) {
@@ -73,7 +78,6 @@
   .container-1 .icon{
     left: 47.4%;
     z-index: 1;
-    color: #4f5b66;
   }
 
   .container-1 .icon{

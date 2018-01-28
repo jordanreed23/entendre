@@ -1,15 +1,33 @@
-.About{
-  margin-top: 100px;
+.About {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
   font-size: 1.3em;
   /*border-bottom: 2px solid black;*/
-  color: #73818f;
+  color: #C2CCD0;
+  font-family: 'Catamaran', sans-serif;
+}
+
+.about-logo {
+  margin-top: 0;
+  width: 170px;
+}
+
+.about-text {
+  width: 320px;
 }
 
 @media only screen and (max-width: 900px) {
-  .About{
+  .About {
     margin-top: 5px;
     font-size: 1.2em;
     /*border-bottom: 2px solid black;*/
-    color: #73818f;
+  }
+  .about-text{
+    display: none;
+  }
+  .about-logo {
+    margin-left: 30px;
   }
 }

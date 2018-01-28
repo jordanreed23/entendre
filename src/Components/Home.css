@@ -3,32 +3,48 @@
   flex-direction: column;
   /*margin-top: 90vh;*/
 }
-.home-form-search {
 
-}
-
-.welcome-text, .wordsmiths {
+.welcome-text, .wordsmiths, .subheading {
   /*font-family: 'PT Serif', serif;*/
-  color: #63717f;
-
+  color: #E2ECF0;
 }
 
 .welcome-text{
-    font-size: 2.6em;
+    font-size: 3em;
+    margin-bottom: 4px;
+    /*-webkit-text-stroke: 1px #83919f;
+    color: #63717f;
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;*/
+}
+
+.subheading {
+  font-size: 2em;
+  margin: 1px 0 70px 0;
+}
+
+.top-ranked-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 30px;
 }
 
 .wordsmiths {
-  margin: 50px 0 10px 0;
+  margin: 50px 0 10px 60px;
+  font-size: 1.4em;
+}
+
+.vocabulary{
+  margin-right: 8px;
 }
 
 .home-search input#search{
   width: 450px;
   height: 2.6em;
-  background: #D2DCE0;
+  background: #E2ECF0;
   border: none;
   font-size: 15pt;
   float: left;
-  color: #63717f;
+  color: #43515f;
   padding-left: 40px;
   margin-left: 15px;
   /*margin-left: 253px;*/
@@ -45,7 +61,7 @@
 .home-search{
   display: none;
 }
-.welcome-text{
+.welcome-text, .subheading{
     display: none;
 }
 }

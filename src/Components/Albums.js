@@ -1,46 +1,113 @@
 import React, {Component} from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
-import './Albums.css';
+import './Search.css';
 // import { Switch, Route } from 'react-router-dom'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import Selection from './Selection'
 
-const query = gql`{
-  allUsers{
+const query = gql`
+query getArtist($name: String!){
+  getArtist(name: $name){
     id
-    username
-    pic
+    name
+    art
+    bio
+    vocab
+    tags
+    albums {
+      id
+    }
   }
 }
 `;
 
-const mutation = gql `
-  mutation newUser($username: String!, $token: String!, $pic: String){
-    createUser(username: $username, token: $token, pic: $pic) {
-      id
-      username
-      token
-      pic
-      contributions
-    }
+const mutation1 = gql `
+mutation addArtist($name: String!, $art: String!, $bio: String!){
+  addArtist(name: $name, art: $art, bio: $bio){
+    id
+    name
+    art
+    bio
   }
-  `;
+}
+`;
 
 class Albums extends Component {
+  componentDidMount(){
+    // this.props.resetSearched();
+  }
+  runMutation (){
+    this.props.mutation1({
+      variables: {
+        name: this.props.state.selectedArtist,
+        art: this.props.state.selectedArtistImg,
+        bio: this.props.state.selectedArtistBio,
+      }
+    }).then(res => {
+      this.props.data.refetch({
+        variables: {
+          name: this.props.match.params.id,
+        }
+      }).then(data => {
+        console.log("refetched", data);
+      })
+    })
+  }
+  //
+  // collectAlbums() {
+  //   console.log('woooop');
+  //
+  // }
 
   render() {
+    let {data} = this.props;
+    if (data.loading) {
 
+      return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif"/></div>
+    }
+
+    if(this.props.state.isSearched){
+      this.props.resetSearched();
+    }
+
+    if(!this.props.state.selectedArtist){
+      return <Redirect to="/"/>;
+    }
+
+    if(this.props.state.isSearched){
+      if(this.props.state.isArtists){
+        return <Redirect to={`/artists/${this.props.state.selectedArtist}`}/>;
+      }else{
+        return <Redirect to={`/albums/${this.props.state.selectedArtist}`}/>;
+      }
+    }
+
+    if(!this.props.data.getArtist){
+      this.runMutation();
+      return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif"/></div>
+    }
+
+    if(this.props.data.getArtist.id !==   this.props.state.selectedArtistId){
+      this.props.setArtistId(this.props.data.getArtist.id);
+    }
+    // if(!this.props.data.getArtist.albums){
+    //   this.collectAlbums();
+    // }
+
+    console.log("get artist!!", this.props);
     return (
-      <div className="Albums">
-        <div>
-          {/* <img src={this.props.} */}
-        <h1 className="name-heading">{this.props.state.selectedArtist}</h1>
+      <div className="search-heading">
+        <div className="heading">
+          <img src={this.props.state.selectedArtistImg} className="img-heading"/>
+          <h1 className="name-heading">{this.props.state.selectedArtist}</h1>
         </div>
-        <h1 className="list-heading">Available Albums</h1>
+        <h1 className="list-heading">AVAILABLE ALBUMS</h1>
+        <div className="list">
           {this.props.state.albumList.map((x, i) => {
-            return <Link  className="selection-links" to={'/albums'}><Selection music={x} rank={i + 1}/></Link>
+            return <Link  className="selection-links" to={`/songs/${i}`}><Selection music={x}/></Link>
           })}
+        </div>
       </div>
     )
   }
@@ -48,10 +115,12 @@ class Albums extends Component {
 
 const queryOptions = {
   options: ownProps => ({
-    variables: {}
+    variables: {
+      name: ownProps.match.params.id,
+    }
   })
 }
 
-Albums = compose(graphql(query, queryOptions), graphql(mutation, {name: 'mutation'}))(Albums);
+Albums = compose(graphql(query, queryOptions), graphql(mutation1, {name: 'mutation1'}))(Albums);
 
 export default Albums;

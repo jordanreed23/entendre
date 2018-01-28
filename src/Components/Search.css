@@ -1,0 +1,50 @@
+.search-heading {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+}
+
+.name-heading, .list-heading {
+  /*font-family: 'PT Serif', serif;*/
+  color: #E2ECF0;
+  font-family: 'Fjalla One', sans-serif;
+}
+
+.name-heading {
+  font-size: 2.6em;
+}
+
+.list-heading {
+  margin: 50px 0 10px 0;
+}
+
+.list{
+  height: 90vh;
+  overflow: scroll;
+}
+
+.img-heading {
+  width: 200px;
+  margin-right: 40px;
+  border-radius: 8px;
+}
+
+.selection-links {
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 634px) {
+  .home-search {
+    display: none;
+  }
+  .welcome-text {
+    display: none;
+  }
+}

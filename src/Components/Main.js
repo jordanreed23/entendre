@@ -10,6 +10,7 @@ import Albums from './Albums';
 import Detail from './Detail';
 import Lyrics from './Lyrics';
 import Songs from './Songs';
+import None from './None';
 // import Login from './Login'
 import {Link} from 'react-router-dom';
 
@@ -47,20 +48,24 @@ class Main extends Component {
     return (<div className="Main">
       <div className="Main-left">
         <Switch>
-          <Route exact path='/' render={(props) => (<Home {...props} searchArtists={this.props.searchArtists} state={this.props.state} displayArtists={this.props.displayArtists}/>)}/>
+          <Route exact path='/' render={(props) => (<Home {...props} searchArtists={this.props.searchArtists} state={this.props.state}/>)}/>
           <Route exact path='/artists' render={(props) => (<Artists {...props} searchArtists={this.props.searchArtists} state={this.props.state}/>)}/>
-          <Route exact="exact" path='/albums' render={(props) => (<Albums {...props} state={this.props.state}/>)}/>
-          <Route exact="exact" path='/songs' component={Songs}/>
-          <Route exact="exact" path='/lyrics' component={Lyrics}/>
+          <Route path='/albums/:id' render={(props) => (<Albums {...props} state={this.props.state} resetSearched={this.props.resetSearched}
+          searchArtists={this.props.searchArtists} setArtistId={this.props.setArtistId}/>)}/>
+          <Route path='/songs/:id' render={(props) => (<Songs {...props} state={this.props.state} resetSearched={this.props.resetSearched}
+          searchArtists={this.props.searchArtists} setTracklist={this.props.setTracklist}/>)}/>
+          <Route path='/lyrics' component={Lyrics}/>
+          <Route exact path='/none' render={(props) => (<None {...props} state={this.props.state}/>)}/>
+
         </Switch>
       </div>
       <div className="Main-right">
         <Switch>
-          <Route exact="exact" path='/' component={About}/>
-          <Route exact="exact" path='/artists' component={About}/>
-          <Route exact="exact" path='/albums' component={Detail}/>
-          <Route exact="exact" path='/songs' component={Detail}/>
-          <Route exact="exact" path='/lyrics' component={Detail}/>
+          <Route exact path='/' component={About}/>
+          <Route path='/artists/' component={About}/>
+          <Route path='/albums/' component={Detail}/>
+          <Route path='/songs/' component={Detail}/>
+          <Route path='/lyrics/' component={Detail}/>
         </Switch>
       </div>
     </div>);
