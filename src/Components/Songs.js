@@ -13,7 +13,7 @@ query getAlbum($artist_id: Int!, $name: String!){
     id
     name
     art
-    vocab
+    unique_words
     songs {
       id
     }
@@ -22,8 +22,8 @@ query getAlbum($artist_id: Int!, $name: String!){
 `;
 
 const mutation1 = gql `
-mutation addAlbum($name: String!, $art: String!, $year: String, $description: String, $artist_id: Int!){
-  addAlbum(name: $name, art: $art, year: $year, description: $description){
+mutation addAlbum($name: String!, $art: String, $year: String, $description: String, $artist_id: Int!){
+  addAlbum(name: $name, art: $art, year: $year, description: $description, artist_id: $artist_id){
     id
     name
   }
@@ -32,14 +32,16 @@ mutation addAlbum($name: String!, $art: String!, $year: String, $description: St
 
 class Songs extends Component {
   async componentDidMount(){
-    const response = await fetch("https://stormy-chamber-42667.herokuapp.com/http://www.theaudiodb.com/api/v1/json/195003/track.php?m=" + this.props.state.albumList[this.props.match.params.id].idAlbum);
-    const json = await response.json();
-    let tracklist = [];
-    for (var i = 0; i < json.track.length; i++) {
-      tracklist.push(json.track[i].strTrack);
+    if(this.props.state.selectedArtist){
+      const response = await fetch("https://stormy-chamber-42667.herokuapp.com/http://www.theaudiodb.com/api/v1/json/195003/track.php?m=" + this.props.state.albumList[this.props.match.params.id].idAlbum);
+      const json = await response.json();
+      let tracklist = [];
+      for (var i = 0; i < json.track.length; i++) {
+        tracklist.push({name: json.track[i].strTrack});
+      }
+      this.props.setTracklist(tracklist)
+      console.log(tracklist);
     }
-    this.props.setTracklist(tracklist)
-    console.log(tracklist);
   }
 
   runMutation (){
@@ -54,11 +56,18 @@ class Songs extends Component {
       }
     }).then(res => {
       console.log("add album response", res);
+      console.log("name", this.props.state.albumList[i].name);
+      console.log("art id", this.props.state.selectedArtistId);
       this.props.data.refetch({
         variables: {
-          name: this.props.state.albumList[i].name,
-          artist_id: this.props.state.selectedArtistId,
+          name: res.data.addAlbum.name,
+          artist_id: res.data.addAlbum.id,
         }
+      // this.props.data.refetch({
+      //   variables: {
+      //     name: this.props.state.albumList[i].name,
+      //     artist_id: this.props.state.selectedArtistId,
+      //   }
       }).then(data => {
         console.log("refetched", data);
       })
@@ -82,6 +91,7 @@ class Songs extends Component {
         return <Redirect to={`/albums/${this.props.state.selectedArtist}`}/>;
       }
     }
+      console.log("getAlbum data", this.props.data);
 
     if(!this.props.data.getAlbum){
       this.runMutation();
@@ -98,7 +108,7 @@ class Songs extends Component {
         <div className="list">
           {/* replace albumList with track list */}
           {this.props.state.tracklist.map((x, i) => {
-            return <Link  className="selection-links" to={`/lyrics/${x.id}`}><Selection music={x}/></Link>
+            return <Link  className="selection-links" to={`/lyrics/${x.name}`}><Selection music={x} rank={i+1} tracks={true}/></Link>
           })}
         </div>
       </div>
@@ -109,8 +119,8 @@ class Songs extends Component {
 const queryOptions = {
   options: ownProps => ({
     variables: {
-      artist_id: ownProps.match.params.id,
-      name: ownProps.state.selectedArtist,
+      artist_id: ownProps.state.selectedArtistId,
+      name: ownProps.state.albumList[ownProps.match.params.id].name,
     }
   })
 }

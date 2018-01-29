@@ -19,7 +19,7 @@
 
 .Selection:hover{
   position: relative;
-  top: -4px;
+  top: -2px;
   right: 2px;
   background: #272126;
   background: -moz-linear-gradient(top, #070106 0%, #272126 100%);
@@ -38,7 +38,8 @@
 .selection-info {
   display: flex;
   flex-direction: column;
-  align-items: baseline;
+  align-items: flex-start;
+  /*justify-content: center;*/
   margin: 0 10px;
   padding: 0 10px 0 20px;
 }
@@ -59,4 +60,8 @@
 
 .selection-details {
   margin: 2px 5px 1px 200px;
+}
+
+.selection-track-num, .selection-name-track{
+  font-size: 1.5em;
 }

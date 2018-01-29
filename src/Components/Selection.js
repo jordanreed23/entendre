@@ -5,32 +5,32 @@ import './Selection.css';
 // import { Switch, Route } from 'react-router-dom'
 import {Link} from 'react-router-dom'
 
-const query = gql`
-query getAlbum($name: String!){
-  getAlbum(name: $name){
-    id
-    name
-    art
-    vocab
-    tags
-    albums {
-      id
-    }
-  }
-}
-`;
-
-const mutation1 = gql `
-mutation addAlbum($name: String!, $art: String!){
-  addArtist(name: $name, art: $art){
-    id
-    name
-    art
-    vocab
-    tags
-  }
-}
-`;
+// const query = gql`
+// query getAlbum($name: String!){
+//   getAlbum(name: $name){
+//     id
+//     name
+//     art
+//     vocab
+//     tags
+//     albums {
+//       id
+//     }
+//   }
+// }
+// `;
+//
+// const mutation1 = gql `
+// mutation addAlbum($name: String!, $art: String!){
+//   addArtist(name: $name, art: $art){
+//     id
+//     name
+//     art
+//     vocab
+//     tags
+//   }
+// }
+// `;
 
 class Selection extends Component {
   checkIfWords(){
@@ -42,6 +42,9 @@ class Selection extends Component {
   }
 
   checkIfRank(){
+    if(this.props.tracks){
+      return <h1 className="selection-track-num">{this.props.rank}</h1>
+    }
     if(this.props.rank){
       return <h1 className="selection-rank">{this.props.rank}</h1>
     }
@@ -55,6 +58,22 @@ class Selection extends Component {
     }
   }
 
+  checkIfTracks(){
+    console.log(this.props.music);
+    if(this.props.tracks){
+      return
+    }else{
+      return <img className="selection-art" src={this.checkIfArt()}/>
+    }
+  }
+
+  selectFont(){
+    if(this.props.tracks){
+      return "selection-name-track"
+    }else{
+      return "selection-name"
+    }
+  }
   // if()
 
   render() {
@@ -68,9 +87,9 @@ class Selection extends Component {
     return (
       <div className="Selection">
         {this.checkIfRank()}
-        <img className="selection-art" src={this.checkIfArt()}/>
+        {this.checkIfTracks()}
         <div className="selection-info">
-          <h1 className="selection-name">{this.props.music.name}</h1>
+          <h1 className={this.selectFont()}>{this.props.music.name}</h1>
           <h2 className="selection-details">{this.checkIfWords()}</h2>
         </div>
       </div>
@@ -78,12 +97,12 @@ class Selection extends Component {
   }
 }
 
-const queryOptions = {
-  options: ownProps => ({
-    variables: {}
-  })
-}
+// const queryOptions = {
+//   options: ownProps => ({
+//     variables: {}
+//   })
+// }
 
-Selection = compose(graphql(query, queryOptions), graphql(mutation1, {name: 'mutation1'}))(Selection);
+// Selection = compose(graphql(query, queryOptions), graphql(mutation1, {name: 'mutation1'}))(Selection);
 
 export default Selection;

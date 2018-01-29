@@ -54,7 +54,8 @@ class Main extends Component {
           searchArtists={this.props.searchArtists} setArtistId={this.props.setArtistId}/>)}/>
           <Route path='/songs/:id' render={(props) => (<Songs {...props} state={this.props.state} resetSearched={this.props.resetSearched}
           searchArtists={this.props.searchArtists} setTracklist={this.props.setTracklist}/>)}/>
-          <Route path='/lyrics' component={Lyrics}/>
+          <Route path='/lyrics/:id' render={(props) => (<Lyrics {...props} state={this.props.state} resetSearched={this.props.resetSearched}
+          searchArtists={this.props.searchArtists} setTracklist={this.props.setTracklist}/>)}/>
           <Route exact path='/none' render={(props) => (<None {...props} state={this.props.state}/>)}/>
 
         </Switch>
