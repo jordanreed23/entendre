@@ -1,0 +1,46 @@
+.Lyrics{
+    /*display: flex;
+    flex-direction: column;*/
+    align-items: center;
+    margin-top: 30px;
+    font-size: 2em;
+    /*border-bottom: 2px solid black;*/
+    color: #E2ECF0;
+    font-family: 'Fjalla One', sans-serif;
+    text-shadow: 1px 1px #000000;
+}
+
+.heading-lyrics{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.name-lyrics{
+  margin-bottom: 10px;
+}
+
+.artist-lyrics {
+  font-size: .8em;
+  margin-top: 0;
+}
+
+.the-lyrics{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(33,48,80,0.05) 2%, rgba(33,48,80,0.51) 20%, rgba(33,48,80,0.72) 54%, rgba(33,48,80,1) 99%);
+  background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(33,48,80,0.05) 2%,rgba(33,48,80,0.51) 20%,rgba(33,48,80,0.72) 54%,rgba(33,48,80,1) 99%);
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(33,48,80,0.05) 2%,rgba(33,48,80,0.51) 20%,rgba(33,48,80,0.72) 54%,rgba(33,48,80,1) 99%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#213050',GradientType=0 );
+  width: auto;
+  font-size: .7em;
+  font-family: 'PT Serif', serif;
+  margin: 20px 0 0 10px;
+}
+
+.the-lyrics p{
+  color: #F2FCF9;
+  margin: 3px 5px;
+}

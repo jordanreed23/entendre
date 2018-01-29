@@ -91,7 +91,6 @@ class Songs extends Component {
         return <Redirect to={`/albums/${this.props.state.selectedArtist}`}/>;
       }
     }
-      console.log("getAlbum data", this.props.data);
 
     if(!this.props.data.getAlbum){
       this.runMutation();

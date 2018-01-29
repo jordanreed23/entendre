@@ -35,10 +35,11 @@ class App extends Component {
       selectedArtistImg: '',
       selectedArtistBio: '',
       albumList: [],
-      selectedAlbum: null,
-      selectedAlbumImg: null,
+      // selectedAlbum: null,
+      // selectedAlbumImg: null,
       tracklist: [],
-      selectedSong: null,
+      lyrics: null,
+      // selectedSong: null,
       noResults: false,
       // topArtists: [],
     }
@@ -77,6 +78,12 @@ class App extends Component {
   setTracklist = (tracks) => {
     this.setState({
       tracklist: tracks
+    })
+  }
+
+  setLyrics = (lyrics) => {
+    this.setState({
+      lyrics: lyrics
     })
   }
 
@@ -226,7 +233,8 @@ class App extends Component {
         searchArtists={this.searchArtists}
         resetSearched={this.resetSearched}
         setArtistId={this.setArtistId}
-      setTracklist={this.setTracklist}/>
+      setTracklist={this.setTracklist}
+      setLyrics={this.setLyrics}/>
       </div>
 
       <footer className="App-footer" onClick={this.hideDropdown}></footer>
