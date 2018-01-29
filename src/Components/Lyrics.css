@@ -19,11 +19,18 @@
 
 .name-lyrics{
   margin-bottom: 10px;
+  font-size: 1.3em;
 }
 
 .artist-lyrics {
   font-size: .8em;
   margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.count-lyrics {
+  font-size: .6em;
+  margin-left: 370px;
 }
 
 .the-lyrics{

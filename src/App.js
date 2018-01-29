@@ -35,7 +35,7 @@ class App extends Component {
       selectedArtistImg: '',
       selectedArtistBio: '',
       albumList: [],
-      // selectedAlbum: null,
+      selectedAlbumId: null,
       // selectedAlbumImg: null,
       tracklist: [],
       lyrics: null,
@@ -72,6 +72,12 @@ class App extends Component {
   setArtistId = (id) => {
     this.setState({
       selectedArtistId: id
+    })
+  }
+
+  setAlbumId = (id) => {
+    this.setState({
+      selectedAlbumId: id
     })
   }
 
@@ -230,11 +236,13 @@ class App extends Component {
       </header>
       <div onClick={this.hideDropdown}>
         <Main state={this.state}
-        searchArtists={this.searchArtists}
-        resetSearched={this.resetSearched}
-        setArtistId={this.setArtistId}
-      setTracklist={this.setTracklist}
-      setLyrics={this.setLyrics}/>
+          searchArtists={this.searchArtists}
+          resetSearched={this.resetSearched}
+          setArtistId={this.setArtistId}
+          setAlbumId={this.setAlbumId}
+          setTracklist={this.setTracklist}
+          setLyrics={this.setLyrics}
+        />
       </div>
 
       <footer className="App-footer" onClick={this.hideDropdown}></footer>

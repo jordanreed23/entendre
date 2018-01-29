@@ -97,6 +97,10 @@ class Songs extends Component {
       return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif"/></div>
     }
 
+    if(this.props.data.getAlbum.id !==   this.props.state.selectedAlbumId){
+      this.props.setAlbumId(this.props.data.getAlbum.id);
+    }
+
     return (
       <div className="search-heading">
         <div className="heading">

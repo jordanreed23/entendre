@@ -53,7 +53,8 @@ class Main extends Component {
           <Route path='/albums/:id' render={(props) => (<Albums {...props} state={this.props.state} resetSearched={this.props.resetSearched}
           searchArtists={this.props.searchArtists} setArtistId={this.props.setArtistId}/>)}/>
           <Route path='/songs/:id' render={(props) => (<Songs {...props} state={this.props.state} resetSearched={this.props.resetSearched}
-          searchArtists={this.props.searchArtists} setTracklist={this.props.setTracklist}/>)}/>
+          searchArtists={this.props.searchArtists} setTracklist={this.props.setTracklist}
+          setAlbumId={this.props.setAlbumId}/>)}/>
           <Route path='/lyrics/:id' render={(props) => (<Lyrics {...props} state={this.props.state} resetSearched={this.props.resetSearched}
           searchArtists={this.props.searchArtists} setLyrics={this.props.setLyrics}/>)}/>
           <Route exact path='/none' render={(props) => (<None {...props} state={this.props.state}/>)}/>
