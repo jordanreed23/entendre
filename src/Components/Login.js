@@ -96,14 +96,21 @@ class Login extends Component {
           token: this.props.state.user.token
         }
       }).then(data => {
-        if(data.loginUser){
-          console.log(data);
-          postData.id = data.loginUser.id
-          this.props.updateUserState(postData)
+        // console.log("datatatata", data);
+        // if(data){
+        //   console.log("daaaata", data);
+        //   let newPost = {
+        //     username: data.loginUser.username,
+        //     token: data.loginUser.token,
+        //     pic: data.loginUser.pic,
+        //     id: data.loginUser.id,
+        //   }
+        //   this.props.updateUserState(newPost)
           console.log("refetch");
-        }
+        // }
       })
-
+      // console.log("poooost daaata", postData);
+      // console.log("staaaaaate", this.props.state);
       if (this.props.data.loginUser == null) {
         this.props.mutation({
           variables: {
@@ -112,8 +119,8 @@ class Login extends Component {
             pic: this.props.state.user.pic
           }
         }).then(res => {
-          postData.id = res.newUser.id;
-          this.props.updateUserState(postData)
+          // postData.id = res.newUser.id;
+          // this.props.updateUserState(postData)
           console.log("new user created");
         })
       } else {

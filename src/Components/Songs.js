@@ -5,6 +5,7 @@ import './Search.css';
 // import { Switch, Route } from 'react-router-dom'
 import {Link, Redirect} from 'react-router-dom'
 import Selection from './Selection'
+import fun from '../services/dataFunctions';
 
 const query = gql`
 
@@ -18,6 +19,7 @@ query getAlbum($artist_id: Int!, $name: String!){
       id
       name
       unique_words
+      lyrics
     }
   }
 }
@@ -28,6 +30,15 @@ mutation addAlbum($name: String!, $art: String, $year: String, $description: Str
   addAlbum(name: $name, art: $art, year: $year, description: $description, artist_id: $artist_id){
     id
     name
+  }
+}
+`;
+
+const mutation2 = gql `
+mutation updateAlbumVocab($id: Int!, $unique_words: Int!){
+  updateAlbumVocab(id: $id, unique_words: $unique_words){
+    id
+    unique_words
   }
 }
 `;
@@ -67,6 +78,31 @@ class Songs extends Component {
     })
   }
 
+  calculate = () => {
+    let allLyrics = fun.combineLyrics(this.props.data.getAlbum.songs);
+    console.log("allLyrics", allLyrics);
+    let cleanLyrics = fun.cleaner(allLyrics);
+    let count = fun.countUnique(cleanLyrics);
+    console.log("count", count);
+    this.props.mutation2({
+      variables: {
+        id: this.props.data.getAlbum.id,
+        unique_words: count,
+      }
+    }).then(res => {
+      console.log("res", res);
+      this.props.data.refetch({
+        variables: {
+          name: this.props.data.getAlbum.name,
+          artist_id: this.props.state.selectedArtist,
+        }
+      }).then(data => {
+        console.log("refetched", data);
+      })
+    })
+    console.log("album count", this.props.data.getAlbum.unique_words);
+  }
+
   checkIfUniqueWords(track){
     for (var i = 0; i < this.props.data.getAlbum.songs.length; i++) {
       if(this.props.data.getAlbum.songs[i].name === track.name){
@@ -75,6 +111,16 @@ class Songs extends Component {
     }
     return null;
   }
+
+  checkTotalUnique(){
+    if(this.props.data.getAlbum.unique_words){
+      return (`${this.props.data.getAlbum.unique_words}`)
+    }
+    else{
+      return (<button className="unique-button" onClick={this.calculate}>Calculate Unique</button>)
+    }
+  }
+
 
   render() {
     let {data} = this.props;
@@ -108,6 +154,8 @@ class Songs extends Component {
         <div className="heading">
           <img src={this.props.data.getAlbum.art} className="img-heading"/>
           <h1 className="name-heading">{this.props.data.getAlbum.name}</h1>
+          <h2 className="count-unique">unique word count <br/>
+          {this.checkTotalUnique()}</h2>
         </div>
         <h1 className="list-heading">TRACKLIST</h1>
         <div className="list">
@@ -130,6 +178,6 @@ const queryOptions = {
   })
 }
 
-Songs = compose(graphql(query, queryOptions), graphql(mutation1, {name: 'mutation1'}))(Songs);
+Songs = compose(graphql(query, queryOptions), graphql(mutation1, {name: 'mutation1'}),graphql(mutation2, {name: 'mutation2'}))(Songs);
 
 export default Songs;

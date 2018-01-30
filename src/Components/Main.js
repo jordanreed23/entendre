@@ -14,37 +14,37 @@ import None from './None';
 // import Login from './Login'
 import {Link} from 'react-router-dom';
 
-const query = gql `{
-  allUsers{
-    id
-    username
-    pic
-  }
-}
-`;
-
-const mutation = gql `
-  mutation newUser($username: String!, $token: String!, $pic: String){
-    createUser(username: $username, token: $token, pic: $pic) {
-      id
-      username
-      token
-      pic
-      contributions
-    }
-  }
-  `;
+// const query = gql `{
+//   allUsers{
+//     id
+//     username
+//     pic
+//   }
+// }
+// `;
+//
+// const mutation = gql `
+//   mutation newUser($username: String!, $token: String!, $pic: String){
+//     createUser(username: $username, token: $token, pic: $pic) {
+//       id
+//       username
+//       token
+//       pic
+//       contributions
+//     }
+//   }
+//   `;
 
 class Main extends Component {
 
   render() {
-    let {data} = this.props;
-    if (data.loading) {
-      return <div className="main-load">
-        <img src="https://thumbs.gfycat.com/ImpressiveRigidHind-max-1mb.gif"/>
-        <h3>Loading</h3>
-      </div>
-    }
+    // let {data} = this.props;
+    // if (data.loading) {
+    //   return <div className="main-load">
+    //     <img src="https://thumbs.gfycat.com/ImpressiveRigidHind-max-1mb.gif"/>
+    //     <h3>Loading</h3>
+    //   </div>
+    // }
     return (<div className="Main">
       <div className="Main-left">
         <Switch>
@@ -76,16 +76,16 @@ class Main extends Component {
   }
 }
 
-const queryOptions = {
-  options: ownProps => ({
-    variables: {
-      // username: ownProps.state.user.username,
-      // token: ownProps.state.user.token,
-      // pic: 'http://profile.actionsprout.com/default.jpeg',
-    }
-  })
-}
-
-Main = compose(graphql(query, queryOptions), graphql(mutation, {name: 'mutation'}))(Main);
+// const queryOptions = {
+//   options: ownProps => ({
+//     variables: {
+//       // username: ownProps.state.user.username,
+//       // token: ownProps.state.user.token,
+//       // pic: 'http://profile.actionsprout.com/default.jpeg',
+//     }
+//   })
+// }
+//
+// Main = compose(graphql(query, queryOptions), graphql(mutation, {name: 'mutation'}))(Main);
 
 export default Main;

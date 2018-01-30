@@ -25,7 +25,7 @@ class App extends Component {
         token: '',
         pic: '',
         contributions: 0,
-        id: null,
+        id: 1,
       },
       isSearched: false,
       isArtists: false,
@@ -54,7 +54,7 @@ class App extends Component {
         token: data.token,
         pic: data.pic,
         contributions: data.contributions,
-        id: data.id
+        id: 1
       },
       dropdown: false
     });
@@ -107,7 +107,8 @@ class App extends Component {
         username: '',
         token: '',
         pic: '',
-        entendres: 0
+        contributions: null,
+        id: null,
       },
       dropdown: false
     })

@@ -54,7 +54,9 @@ class Lyrics extends Component {
       // console.log(json.lyrics);
       // let newLyrics = json.lyrics.replace(/ *\([^)]*\) */g, "");
       // this.props.setLyrics(json.lyrics.replace("\n", "<br/>"))
-      this.props.setLyrics(json.lyrics.replace(/\n/g, "<br/>").split('<br/>'))
+      if(json.lyrics){
+        this.props.setLyrics(json.lyrics.replace(/\n/g, "<br/>").split('<br/>'))
+      }
       // this.props.setLyrics(json.lyrics.split('\n'))
 
     }
@@ -83,6 +85,12 @@ class Lyrics extends Component {
     })
   }
 
+  hidePopup = () => {
+    this.setState({
+      popup: false,
+    })
+  }
+
   calculateUnique() {
     const promise = new Promise((resolve, reject)=> {
       let cleanedUp = fun.cleaner(this.props.state.lyrics.join(' '))
@@ -101,9 +109,6 @@ class Lyrics extends Component {
   }
 
   popup = (e, i) => {
-    console.log("state before", this.state);
-    console.log("i", i);
-    console.log("text", e.target.innerText);
     this.setState({
       popup: true,
       lyric: e.target.innerText,
@@ -168,12 +173,13 @@ class Lyrics extends Component {
 
     return (
       <div className="Lyrics">
-        <div className="heading-lyrics">
+        <div className="heading-lyrics" onClick={this.hidePopup}>
           <h1 className="name-lyrics">{this.props.match.params.id}</h1>
           <h1 className="artist-lyrics">By: {this.props.state.selectedArtist}</h1>
           <h2 className="count-lyrics">unique word count <br/> {this.props.data.getSong.unique_words}</h2>
         </div>
-        <div className={this.checkVisible()}><Tag lyric={this.state.lyric} index={this.state.index} songId={this.props.data.getSong.id} state={this.props.state}/></div>
+        <div className={this.checkVisible()}><Tag lyric={this.state.lyric} index={this.state.index} songId={this.props.data.getSong.id} tags={this.props.data.getSong.tags} state={this.props.state}
+        hidePopup={this.hidePopup}/></div>
         <div className="the-lyrics">{this.breakUpLyrics()}</div>
         {/* <div>{this.props.state.lyrics}</div> */}
       </div>

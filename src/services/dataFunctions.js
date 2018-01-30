@@ -19,9 +19,20 @@ function countUnique(lyrics){
   return count;
 }
 
+function combineLyrics(lyricsArr){
+  let allLyrics = '';
+  for (var i = 0; i < lyricsArr.length; i++) {
+    if(lyricsArr[i].lyrics){
+      allLyrics = allLyrics + ' ' + lyricsArr[i].lyrics
+    }
+  }
+  return allLyrics
+}
+
 module.exports = {
   cleaner,
   countUnique,
+  combineLyrics,
 }
 
 // console.log(countUnique(cleaner("Chorus: A")));
