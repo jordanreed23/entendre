@@ -7,6 +7,7 @@ function countUnique(lyrics){
   let limit = 40000;
   let count = 0;
   let uniqueStr = ''
+  let loops = 0;
   for (var i = 0; i < lyrics.length; i++) {
     if(lyrics[i] === '' || lyrics[i] === ' '){
       continue
@@ -15,10 +16,13 @@ function countUnique(lyrics){
       uniqueStr =  uniqueStr + " " + lyrics[i] + " ";
       count++
     }
-    if(count >= limit){
+    loops++;
+    if(loops >= limit){
+      console.log("hit limit", count);
       break;
     }
   }
+  console.log("count", count);
   return count;
 }
 
