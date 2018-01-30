@@ -1,8 +1,4 @@
 import React, {Component} from 'react';
-import gql from 'graphql-tag';
-import { graphql, compose } from 'react-apollo';
-// import './None.css';
-// import { Switch, Route } from 'react-router-dom'
 import {Redirect} from 'react-router-dom'
 
 class None extends Component {

@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
-import gql from 'graphql-tag';
-import { graphql, compose } from 'react-apollo';
 import './Selection.css';
-import {Link} from 'react-router-dom'
 
 class Selection extends Component {
   checkIfWords(){
-    console.log("check albums", this.props.albums);
     if(this.props.words){
       return `${this.props.words}`
     }
@@ -14,11 +10,7 @@ class Selection extends Component {
       return `${this.props.music.vocab}`
     }
     else if(this.props.albums){
-      console.log("beeeegin");
       for (var i = 0; i < this.props.albums.length; i++) {
-        console.log("albums",this.props.albums[i]);
-        console.log("music", this.props.music.name);
-        
         if(this.props.albums[i].name === this.props.music.name && this.props.albums[i].unique_words){
 
           return `${this.props.albums[i].unique_words}`
@@ -48,7 +40,7 @@ class Selection extends Component {
     if(this.props.tracks){
       return
     }else{
-      return <img className="selection-art" src={this.checkIfArt()}/>
+      return <img className="selection-art" src={this.checkIfArt()} alt="album"/>
     }
   }
 
@@ -61,16 +53,13 @@ class Selection extends Component {
   }
 
   searchIfRanked = (e) => {
-    console.log("this", this);
     this.props.setSelectedArtist(this.props.music.name)
   }
 
   render() {
 
     return (
-      <div className="Selection"
-        // onClick={this.searchIfRanked}
-        >
+      <div className="Selection">
         {this.checkIfRank()}
         {this.checkIfTracks()}
         <div className="selection-info">

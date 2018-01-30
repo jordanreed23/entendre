@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
-// import './Artists.css';
-// import { Switch, Route } from 'react-router-dom'
-import {Link} from 'react-router-dom'
 
 const query = gql`{
   allUsers{

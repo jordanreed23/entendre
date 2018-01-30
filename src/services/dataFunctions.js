@@ -1,5 +1,4 @@
 function cleaner(lyrics){
-  console.log(lyrics);
   let newLyrics = lyrics.replace(/["']/g, "").replace(/\W+/g, " ");
   return newLyrics.toLowerCase().split(' ');
 }
@@ -54,5 +53,3 @@ module.exports = {
   combineLyrics,
   combineAlbumLyrics,
 }
-
-// console.log(countUnique(cleaner("Chorus: A")));

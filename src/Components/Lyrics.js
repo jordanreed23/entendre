@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import './Lyrics.css';
-// import { Switch, Route } from 'react-router-dom'
-import {Link, Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import fun from '../services/dataFunctions';
 import Tag from './Tag'
 
@@ -51,14 +50,9 @@ class Lyrics extends Component {
       this.props.setLyrics(null)
       const response = await fetch("https://stormy-chamber-42667.herokuapp.com/https://api.lyrics.ovh/v1/" + this.props.state.selectedArtist + "/" + this.props.match.params.id);
       const json = await response.json();
-      // console.log(json.lyrics);
-      // let newLyrics = json.lyrics.replace(/ *\([^)]*\) */g, "");
-      // this.props.setLyrics(json.lyrics.replace("\n", "<br/>"))
       if(json.lyrics){
         this.props.setLyrics(json.lyrics.replace(/\n/g, "<br/>").split('<br/>'))
       }
-      // this.props.setLyrics(json.lyrics.split('\n'))
-
     }
   }
 
@@ -80,7 +74,6 @@ class Lyrics extends Component {
           name: this.props.match.params.id,
         }
       }).then(data => {
-        // console.log("refetched", data);
       })
     })
   }
@@ -114,12 +107,11 @@ class Lyrics extends Component {
       lyric: e.target.innerText,
       index: i,
     });
-    console.log("state after", this.state);
   }
 
   isHighlighted(x) {
     for (var i = 0; i < this.props.data.getSong.tags.length; i++) {
-      if(this.props.data.getSong.tags[i].index == x){
+      if(this.props.data.getSong.tags[i].index === x){
         return "highlight"
       }
     }
@@ -128,10 +120,8 @@ class Lyrics extends Component {
 
   breakUpLyrics(){
     let lines = this.props.state.lyrics;
-    // console.log("all tags", this.props.data.getSong.tags);
     if(lines){
       return lines.map((line, i) => {
-        // console.log(line);
           return (<div>
             <p onClick={(e) => {this.popup(e, i)}} className={this.isHighlighted(i)}>{line}<br/></p>
           </div>);
@@ -142,7 +132,7 @@ class Lyrics extends Component {
   render() {
     let {data} = this.props;
     if (data.loading) {
-      return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif"/></div>
+      return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif" alt="Loading"/></div>
     }
 
     if(!this.props.state.selectedArtist){
@@ -162,13 +152,12 @@ class Lyrics extends Component {
     }
 
     if(!this.props.data.getSong){
-      let unique = this.calculateUnique()
+      this.calculateUnique()
       .then(unique => {
         this.runMutation(unique);
       })
-      // console.log("unique",unique);
 
-      return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif"/></div>
+      return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif" alt="Loading"/></div>
     }
 
     return (
@@ -181,7 +170,6 @@ class Lyrics extends Component {
         <div className={this.checkVisible()}><Tag lyric={this.state.lyric} index={this.state.index} songId={this.props.data.getSong.id} tags={this.props.data.getSong.tags} state={this.props.state}
         hidePopup={this.hidePopup}/></div>
         <div className="the-lyrics">{this.breakUpLyrics()}</div>
-        {/* <div>{this.props.state.lyrics}</div> */}
       </div>
     )
   }

@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import './Detail.css';
-// import { Switch, Route } from 'react-router-dom'
-import {Link, Redirect} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import AlbumDetail from './AlbumDetail'
 import SongDetail from './SongDetail'
 
@@ -52,7 +51,7 @@ class Detail extends Component {
     else{
       return (<div className="detail-heading">
                 <h1>BREAKDOWN<br/><br/>{this.props.state.selectedArtist}</h1>
-                <img src={this.props.state.selectedArtistImg}/>
+                <img src={this.props.state.selectedArtistImg} alt="artist"/>
               </div>)
     }
   }
@@ -90,13 +89,11 @@ class Detail extends Component {
     }
 
     if(!this.props.data.getArtist){
-      console.log("in");
       this.props.data.refetch({
         variables: {
           name: this.props.state.selectedArtist,
         }
       }).then(data => {
-        console.log("refetched", data);
       })
     }
     return (

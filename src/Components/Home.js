@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import gql from 'graphql-tag';
-import { graphql, compose } from 'react-apollo';
+import { graphql} from 'react-apollo';
 import './Home.css';
-// import { Switch, Route } from 'react-router-dom'
 import {Link, Redirect} from 'react-router-dom'
 import Selection from './Selection';
-import fun from '../services/dataFunctions'
 
 const query = gql`
 {
@@ -18,37 +16,12 @@ const query = gql`
 }
 `;
 
-const mutation = gql `
-  mutation newUser($username: String!, $token: String!, $pic: String){
-    createUser(username: $username, token: $token, pic: $pic) {
-      id
-      username
-      token
-      pic
-      contributions
-    }
-  }
-  `;
-
 class Home extends Component {
-  // componentDidMount() {
-  //   const topArtists = fun.organizeVocab(this.props.data.allArtists)
-  // }
-
-  // displayArtists() {
-  //   if(this.state.isArtists){
-  //     return "/artists"
-  //   } else{
-  //     return "/albums"
-  //   }
-  // }
-
   render() {
 
     if (this.props.data.loading) {
       return <div>Calculating...</div>
     }
-    console.log(this.props.state.noResuls);
 
     if(this.props.state.noResults){
       return <Redirect to="/none"/>;
@@ -90,12 +63,6 @@ class Home extends Component {
   }
 }
 
-const queryOptions = {
-  options: ownProps => ({
-    variables: {}
-  })
-}
-
-Home = compose(graphql(query, queryOptions), graphql(mutation, {name: 'mutation'}))(Home);
+Home = graphql(query)(Home);
 
 export default Home;

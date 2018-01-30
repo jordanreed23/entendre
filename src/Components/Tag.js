@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import './Tag.css';
-// import { Switch, Route } from 'react-router-dom'
-// import {Link, Redirect} from 'react-router-dom';
-import fun from '../services/dataFunctions';
 
 const mutation1 = gql `
   mutation addTag($user_id: Int!, $song_id: Int!, $index: Int!, $lyric: String!, $device: String!){
@@ -55,8 +52,6 @@ class Tag extends Component {
 
   addTag = (e) => {
     e.preventDefault();
-    console.log(e.target.device.value);
-    console.log(this.props.state);
     if(this.props.state.user.id){
       this.runMutation(e.target.device.value);
     }else{

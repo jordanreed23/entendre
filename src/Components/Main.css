@@ -28,11 +28,8 @@
 
 .Main-right {
   flex-direction: column;
-  /*align-content: flex-start;*/
   width: auto;
   margin-right: 50px;
-  /*padding-left: 30px;*/
-
 }
 
 /*@media only screen (max-width: 900px) {

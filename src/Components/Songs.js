@@ -73,34 +73,28 @@ class Songs extends Component {
           artist_id: res.data.addAlbum.id,
         }
       }).then(data => {
-        console.log("refetched", data);
       })
     })
   }
 
   calculate = () => {
     let allLyrics = fun.combineLyrics(this.props.data.getAlbum.songs);
-    console.log("allLyrics", allLyrics);
     let cleanLyrics = fun.cleaner(allLyrics);
     let count = fun.countUnique(cleanLyrics);
-    console.log("count", count);
     this.props.mutation2({
       variables: {
         id: this.props.data.getAlbum.id,
         unique_words: count,
       }
     }).then(res => {
-      console.log("res", res);
       this.props.data.refetch({
         variables: {
           name: this.props.data.getAlbum.name,
           artist_id: this.props.state.selectedArtist,
         }
       }).then(data => {
-        console.log("refetched", data);
       })
     })
-    console.log("album count", this.props.data.getAlbum.unique_words);
   }
 
   checkIfUniqueWords(track){
@@ -121,11 +115,10 @@ class Songs extends Component {
     }
   }
 
-
   render() {
     let {data} = this.props;
     if (data.loading) {
-      return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif"/></div>
+      return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif" alt="Loading"/></div>
     }
 
     if(!this.props.state.selectedArtist){
@@ -142,24 +135,31 @@ class Songs extends Component {
 
     if(!this.props.data.getAlbum){
       this.runMutation();
-      return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif"/></div>
+      return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif" alt="Loading"/></div>
     }
 
-    if(this.props.data.getAlbum.id !==   this.props.state.selectedAlbumId){
+    if(this.props.data.getAlbum.id !== this.props.state.selectedAlbumId){
       this.props.setAlbumId(this.props.data.getAlbum.id);
     }
+
+    this.props.data.refetch({
+      variables: {
+        name: this.props.data.getAlbum.name,
+        artist_id: this.props.state.selectedArtist,
+      }
+    }).then(data => {
+    })
 
     return (
       <div className="search-heading">
         <div className="heading">
-          <img src={this.props.data.getAlbum.art} className="img-heading"/>
+          <img src={this.props.data.getAlbum.art} alt="album art" className="img-heading"/>
           <h1 className="name-heading">{this.props.data.getAlbum.name}</h1>
           <h2 className="count-unique">unique word count <br/>
           {this.checkTotalUnique()}</h2>
         </div>
         <h1 className="list-heading">TRACKLIST</h1>
         <div className="list">
-          {/* replace albumList with track list */}
           {this.props.state.tracklist.map((x, i) => {
             return <Link  className="selection-links" to={`/lyrics/${x.name}`}><Selection music={x}  words={this.checkIfUniqueWords(x)} rank={i+1} tracks={true}/></Link>
           })}

@@ -109,7 +109,7 @@ class Albums extends Component {
     let {data} = this.props;
     if (data.loading) {
 
-      return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif"/></div>
+      return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif" alt="Loading"/></div>
     }
 
     if(this.props.state.isSearched){
@@ -134,7 +134,7 @@ class Albums extends Component {
 
     if(!this.props.data.getArtist){
       this.runMutation();
-      return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif"/></div>
+      return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif" alt="Loading"/></div>
     }
 
     if(this.props.data.getArtist.id !==   this.props.state.selectedArtistId){
@@ -144,7 +144,7 @@ class Albums extends Component {
     return (
       <div className="search-heading">
         <div className="heading">
-          <img src={this.props.state.selectedArtistImg} className="img-heading"/>
+          <img src={this.props.state.selectedArtistImg} alt="artist" className="img-heading"/>
           <h1 className="name-heading">{this.props.state.selectedArtist}</h1>
           <h2 className="count-unique">VOCABULARY <br/>
           {this.checkTotalUnique()}</h2>
