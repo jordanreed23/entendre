@@ -5,20 +5,30 @@ import './Search.css';
 // import { Switch, Route } from 'react-router-dom'
 import {Link, Redirect} from 'react-router-dom'
 import Selection from './Selection'
+import fun from '../services/dataFunctions';
 
 const query = gql`
 query getArtist($name: String!){
-  getArtist(name: $name){
-    id
+getArtist(name: $name){
+  id
+  name
+  art
+  vocab
+  tags
+  bio
+  albums {
     name
-    art
-    bio
-    vocab
-    tags
-    albums {
+    id
+    year
+    unique_words
+    songs{
       id
+      name
+      unique_words
+      lyrics
     }
   }
+}
 }
 `;
 
@@ -33,10 +43,16 @@ mutation addArtist($name: String!, $art: String!, $bio: String!){
 }
 `;
 
-class Albums extends Component {
-  componentDidMount(){
-    // this.props.resetSearched();
+const mutation2 = gql `
+mutation updateArtistVocab($id: Int!, $vocab: Int!){
+  updateArtistVocab(id: $id, vocab: $vocab){
+    id
+    vocab
   }
+}
+`;
+
+class Albums extends Component {
   runMutation (){
     this.props.mutation1({
       variables: {
@@ -54,11 +70,40 @@ class Albums extends Component {
       })
     })
   }
-  //
-  // collectAlbums() {
-  //   console.log('woooop');
-  //
-  // }
+
+  calculate = () => {
+    let allLyrics = fun.combineAlbumLyrics(this.props.data.getArtist.albums)
+    let cleanLyrics = fun.cleaner(allLyrics);
+    console.log("clean", cleanLyrics);
+    let count = fun.countUnique(cleanLyrics);
+    console.log("count", count);
+    this.props.mutation2({
+      variables: {
+        id: this.props.data.getArtist.id,
+        vocab: count,
+      }
+    }).then(res => {
+      console.log("res", res);
+      this.props.data.refetch({
+        variables: {
+          name: this.props.data.getArtist.name,
+        }
+      }).then(data => {
+        console.log("refetched", data);
+      })
+    })
+    console.log("artist count", this.props.data.getArtist.vocab);
+  }
+
+  checkTotalUnique(){
+    if(this.props.data.getArtist.vocab){
+      return (`${this.props.data.getArtist.vocab}`)
+    }
+    else{
+      return (<button className="unique-button" onClick={this.calculate}>Calculate Vocabulary</button>)
+    }
+  }
+
 
   render() {
     let {data} = this.props;
@@ -95,20 +140,19 @@ class Albums extends Component {
     if(this.props.data.getArtist.id !==   this.props.state.selectedArtistId){
       this.props.setArtistId(this.props.data.getArtist.id);
     }
-    // if(!this.props.data.getArtist.albums){
-    //   this.collectAlbums();
-    // }
 
     return (
       <div className="search-heading">
         <div className="heading">
           <img src={this.props.state.selectedArtistImg} className="img-heading"/>
           <h1 className="name-heading">{this.props.state.selectedArtist}</h1>
+          <h2 className="count-unique">VOCABULARY <br/>
+          {this.checkTotalUnique()}</h2>
         </div>
         <h1 className="list-heading">AVAILABLE ALBUMS</h1>
         <div className="list">
           {this.props.state.albumList.map((x, i) => {
-            return <Link  className="selection-links" to={`/songs/${i}`}><Selection music={x}/></Link>
+            return <Link  className="selection-links" to={`/songs/${i}`}><Selection albums={this.props.data.getArtist.albums} music={x}/></Link>
           })}
         </div>
       </div>
@@ -124,6 +168,6 @@ const queryOptions = {
   })
 }
 
-Albums = compose(graphql(query, queryOptions), graphql(mutation1, {name: 'mutation1'}))(Albums);
+Albums = compose(graphql(query, queryOptions), graphql(mutation1, {name: 'mutation1'}),graphql(mutation2, {name: 'mutation2'}))(Albums);
 
 export default Albums;

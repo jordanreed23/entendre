@@ -4,6 +4,8 @@ import { graphql, compose } from 'react-apollo';
 import './Detail.css';
 // import { Switch, Route } from 'react-router-dom'
 import {Link, Redirect} from 'react-router-dom'
+import AlbumDetail from './AlbumDetail'
+import SongDetail from './SongDetail'
 
 const query = gql`
   query getArtist($name: String!){
@@ -56,68 +58,29 @@ class Detail extends Component {
   }
 
   checkIfDetailed(){
-    console.log("data", this.props);
     if(!this.props.data.getArtist){
       return (<div></div>)
     }
     if(!this.props.data.getArtist.vocab){
       return (<div className="detail-details">
-          <div className="detail-vocab-num">
-            <h1>VOCABULARY: 3125</h1>
-          </div>
           <div className="detail-subheading">
-            <h1>TOP ALBUMS</h1>
-            <h2>1. 7490</h2>
-            <h2>2. 7490</h2>
-            <h2>3. 7490</h2>
-          </div>
-          <div className="detail-subheading">
-          <h1>TOP SONGS</h1>
-          <h2>1. Daydrecml</h2>
-          <h2>2. mckvjow</h2>
-          <h2>3. vekop490</h2>
-          <h2>4. comcpq7490</h2>
-          <h2>5. vmklam kmwomcwmv7490</h2>
-          <h2>6. mklqmc7490</h2>
-          <h2>7. 7490</h2>
-          <h2>8. mwkmckmkm7490</h2>
-          <h2>9. mokcwemcok7490</h2>
-          <h2>10. mwkoemovmw7490</h2>
+            <h1>VOCABULARY: Not Calculated</h1>
           </div>
         </div>)
-      // return (<button onClick={this.runCalculations}>Calculate Breakdown</button> )
     }
-    else{
+    else {
     return (<div className="detail-details">
         <div className="detail-subheading">
           <h1 >VOCABULARY: {this.props.data.getArtist.vocab}</h1>
         </div>
-        <div className="detail-subheading">
-          <h1>TOP ALBUMS</h1>
-          <h2>1. 7490</h2>
-          <h2>2. 7490</h2>
-          <h2>3. 7490</h2>
-        </div>
-        <div className="detail-subheading">
-        <h1>TOP SONGS</h1>
-        <h2>1. Daydrecml</h2>
-        <h2>2. mckvjow</h2>
-        <h2>3. vekop490</h2>
-        <h2>4. comcpq7490</h2>
-        <h2>5. vmklam kmwomcwmv7490</h2>
-        <h2>6. mklqmc7490</h2>
-        <h2>7. 7490</h2>
-        <h2>8. mwkmckmkm7490</h2>
-        <h2>9. mokcwemcok7490</h2>
-        <h2>10. mwkoemovmw7490</h2>
-        </div>
+        <AlbumDetail artist_id={this.props.data.getArtist.id}/>
+        <SongDetail artist_id={this.props.data.getArtist.id}/>
       </div>)
     }
   }
 
   render() {
     let {data} = this.props;
-    console.log("first step", data);
     if (data.loading) {
       return <div></div>
     }

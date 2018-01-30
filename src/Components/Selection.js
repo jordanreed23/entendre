@@ -2,45 +2,28 @@ import React, {Component} from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import './Selection.css';
-// import { Switch, Route } from 'react-router-dom'
 import {Link} from 'react-router-dom'
-
-// const query = gql`
-// query getAlbum($name: String!){
-//   getAlbum(name: $name){
-//     id
-//     name
-//     art
-//     vocab
-//     tags
-//     albums {
-//       id
-//     }
-//   }
-// }
-// `;
-//
-// const mutation1 = gql `
-// mutation addAlbum($name: String!, $art: String!){
-//   addArtist(name: $name, art: $art){
-//     id
-//     name
-//     art
-//     vocab
-//     tags
-//   }
-// }
-// `;
 
 class Selection extends Component {
   checkIfWords(){
+    console.log("check albums", this.props.albums);
     if(this.props.words){
       return `${this.props.words}`
     }
     if(this.props.music.vocab !== undefined){
       return `${this.props.music.vocab}`
-    } else if(this.props.music.unique_words !== undefined){
-      return `${this.props.music.unique_words}`
+    }
+    else if(this.props.albums){
+      console.log("beeeegin");
+      for (var i = 0; i < this.props.albums.length; i++) {
+        console.log("albums",this.props.albums[i]);
+        console.log("music", this.props.music.name);
+        
+        if(this.props.albums[i].name === this.props.music.name && this.props.albums[i].unique_words){
+
+          return `${this.props.albums[i].unique_words}`
+        }
+      }
     }
   }
 
@@ -79,17 +62,10 @@ class Selection extends Component {
 
   searchIfRanked = (e) => {
     console.log("this", this);
-    // e.preventDefault();
     this.props.setSelectedArtist(this.props.music.name)
   }
 
   render() {
-    // let {data} = this.props;
-    // console.log(this.props );
-    // if (data.loading && this.props.album) {
-    //
-    //   return <div><img src="https://karuchan90.files.wordpress.com/2017/06/audio3.gif?w=240"/></div>
-    // }
 
     return (
       <div className="Selection"
@@ -105,13 +81,5 @@ class Selection extends Component {
     )
   }
 }
-
-// const queryOptions = {
-//   options: ownProps => ({
-//     variables: {}
-//   })
-// }
-
-// Selection = compose(graphql(query, queryOptions), graphql(mutation1, {name: 'mutation1'}))(Selection);
 
 export default Selection;

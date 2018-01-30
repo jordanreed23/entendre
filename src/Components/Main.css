@@ -29,8 +29,9 @@
 .Main-right {
   flex-direction: column;
   /*align-content: flex-start;*/
-  width: 500px;
+  width: auto;
   margin-right: 50px;
+  /*padding-left: 30px;*/
 
 }
 
