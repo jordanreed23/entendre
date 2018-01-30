@@ -9,6 +9,7 @@
   width: 3em;
   height: 3em;
   margin-left: 1.4em;
+  border-radius: 50px;
 }
 
 .profile-dropdown-hidden{

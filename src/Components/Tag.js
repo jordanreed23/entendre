@@ -33,6 +33,7 @@ class Tag extends Component {
         lyric: this.props.lyric,
       }
     }).then(res => {
+      this.props.upFetch()
     })
   }
 
@@ -98,6 +99,7 @@ class Tag extends Component {
                 <option value="pun">pun</option>
                 <option value="homophone">homophone</option>
                 <option value="metaphor">metaphor</option>
+                <option value="allusion">allusion</option>
                 <option value="homophone">homophone</option>
                 <option value="alliteration">alliteration</option>
               </select>

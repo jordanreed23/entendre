@@ -42,6 +42,7 @@ class Lyrics extends Component {
       popup: false,
       lyric: '',
       index: null,
+      getAgain: false,
     }
   }
 
@@ -129,6 +130,10 @@ class Lyrics extends Component {
     }
   }
 
+  upFetch = () => {
+    this.setState({getAgain: true})
+  }
+
   render() {
     let {data} = this.props;
     if (data.loading) {
@@ -160,6 +165,17 @@ class Lyrics extends Component {
       return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif" alt="Loading"/></div>
     }
 
+    if(this.state.getAgain){
+      this.props.data.refetch({
+        variables: {
+          artist_id: this.props.state.selectedArtistId,
+          album_id: this.props.state.selectedAlbumId,
+          name: this.props.match.params.id,
+        }
+      }).then(data => {
+      })
+      this.setState({getAgain: false})
+    }
     return (
       <div className="Lyrics">
         <div className="heading-lyrics" onClick={this.hidePopup}>
@@ -168,7 +184,8 @@ class Lyrics extends Component {
           <h2 className="count-lyrics">unique word count <br/> {this.props.data.getSong.unique_words}</h2>
         </div>
         <div className={this.checkVisible()}><Tag lyric={this.state.lyric} index={this.state.index} songId={this.props.data.getSong.id} tags={this.props.data.getSong.tags} state={this.props.state}
-        hidePopup={this.hidePopup}/></div>
+        hidePopup={this.hidePopup}
+        upFetch={this.upFetch}/></div>
         <div className="the-lyrics">{this.breakUpLyrics()}</div>
       </div>
     )

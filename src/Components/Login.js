@@ -3,8 +3,6 @@ import {GoogleLogin} from 'react-google-login';
 import {GoogleLogout} from 'react-google-login';
 import gql from 'graphql-tag';
 import {graphql, compose} from 'react-apollo';
-
-// import {Redirect} from 'react-router-dom';
 import './Login.css';
 
 const testing = true;
@@ -86,7 +84,7 @@ class Login extends Component {
       let postData = {
         username: 'Jordan Reed',
         token: '126388',
-        pic: 'http://profile.actionsprout.com/default.jpeg',
+        pic: 'https://s3-us-west-2.amazonaws.com/quilt-production/logo/2017/10/tvy6hbSJjJDjnkqzzd.png',
         contributions: 0,
       }
       await this.props.updateUserState(postData)
