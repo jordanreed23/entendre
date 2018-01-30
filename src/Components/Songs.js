@@ -16,6 +16,8 @@ query getAlbum($artist_id: Int!, $name: String!){
     unique_words
     songs {
       id
+      name
+      unique_words
     }
   }
 }
@@ -40,7 +42,6 @@ class Songs extends Component {
         tracklist.push({name: json.track[i].strTrack});
       }
       this.props.setTracklist(tracklist)
-      console.log(tracklist);
     }
   }
 
@@ -55,23 +56,24 @@ class Songs extends Component {
         artist_id: this.props.state.selectedArtistId,
       }
     }).then(res => {
-      console.log("add album response", res);
-      console.log("name", this.props.state.albumList[i].name);
-      console.log("art id", this.props.state.selectedArtistId);
       this.props.data.refetch({
         variables: {
           name: res.data.addAlbum.name,
           artist_id: res.data.addAlbum.id,
         }
-      // this.props.data.refetch({
-      //   variables: {
-      //     name: this.props.state.albumList[i].name,
-      //     artist_id: this.props.state.selectedArtistId,
-      //   }
       }).then(data => {
         console.log("refetched", data);
       })
     })
+  }
+
+  checkIfUniqueWords(track){
+    for (var i = 0; i < this.props.data.getAlbum.songs.length; i++) {
+      if(this.props.data.getAlbum.songs[i].name === track.name){
+        return this.props.data.getAlbum.songs[i].unique_words;
+      }
+    }
+    return null;
   }
 
   render() {
@@ -111,7 +113,7 @@ class Songs extends Component {
         <div className="list">
           {/* replace albumList with track list */}
           {this.props.state.tracklist.map((x, i) => {
-            return <Link  className="selection-links" to={`/lyrics/${x.name}`}><Selection music={x} rank={i+1} tracks={true}/></Link>
+            return <Link  className="selection-links" to={`/lyrics/${x.name}`}><Selection music={x}  words={this.checkIfUniqueWords(x)} rank={i+1} tracks={true}/></Link>
           })}
         </div>
       </div>

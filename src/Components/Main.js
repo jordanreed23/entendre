@@ -48,7 +48,8 @@ class Main extends Component {
     return (<div className="Main">
       <div className="Main-left">
         <Switch>
-          <Route exact path='/' render={(props) => (<Home {...props} searchArtists={this.props.searchArtists} state={this.props.state}/>)}/>
+          <Route exact path='/' render={(props) => (<Home {...props} searchArtists={this.props.searchArtists} state={this.props.state}
+          setSelectedArtist={this.props.setSelectedArtist}/>)}/>
           <Route exact path='/artists' render={(props) => (<Artists {...props} searchArtists={this.props.searchArtists} state={this.props.state}/>)}/>
           <Route path='/albums/:id' render={(props) => (<Albums {...props} state={this.props.state} resetSearched={this.props.resetSearched}
           searchArtists={this.props.searchArtists} setArtistId={this.props.setArtistId}/>)}/>
@@ -65,9 +66,10 @@ class Main extends Component {
         <Switch>
           <Route exact path='/' component={About}/>
           <Route path='/artists/' component={About}/>
-          <Route path='/albums/' component={Detail}/>
-          <Route path='/songs/' component={Detail}/>
-          <Route path='/lyrics/' component={Detail}/>
+          <Route path="/albums/" render={(props) => (<Detail {...props} state={this.props.state}
+          album={true}/>)}/>
+          <Route path="/songs/" render={(props) => (<Detail {...props} state={this.props.state}/>)}/>
+          <Route path="/lyrics/" render={(props) => (<Detail {...props} state={this.props.state}/>)}/>
         </Switch>
       </div>
     </div>);

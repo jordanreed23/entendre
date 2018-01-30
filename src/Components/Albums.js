@@ -75,6 +75,10 @@ class Albums extends Component {
       return <Redirect to="/"/>;
     }
 
+    if(this.props.state.selectedArtist !== this.props.match.params.id){
+
+    }
+
     if(this.props.state.isSearched){
       if(this.props.state.isArtists){
         return <Redirect to={`/artists/${this.props.state.selectedArtist}`}/>;
@@ -95,7 +99,6 @@ class Albums extends Component {
     //   this.collectAlbums();
     // }
 
-    console.log("get artist!!", this.props);
     return (
       <div className="search-heading">
         <div className="heading">

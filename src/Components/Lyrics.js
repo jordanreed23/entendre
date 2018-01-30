@@ -5,6 +5,7 @@ import './Lyrics.css';
 // import { Switch, Route } from 'react-router-dom'
 import {Link, Redirect} from 'react-router-dom';
 import fun from '../services/dataFunctions';
+import Tag from './Tag'
 
 const query = gql`
   query getSong($artist_id: Int!, $name: String!, $album_id: Int!){
@@ -15,6 +16,10 @@ const query = gql`
       lyrics
       tags {
         id
+      	index
+      	lyric
+      	device
+        votes
       }
     }
   }
@@ -32,8 +37,18 @@ const mutation1 = gql `
 `;
 
 class Lyrics extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      popup: false,
+      lyric: '',
+      index: null,
+    }
+  }
+
   async componentDidMount(){
     if(this.props.state.selectedArtist){
+      this.props.setLyrics(null)
       const response = await fetch("https://stormy-chamber-42667.herokuapp.com/https://api.lyrics.ovh/v1/" + this.props.state.selectedArtist + "/" + this.props.match.params.id);
       const json = await response.json();
       // console.log(json.lyrics);
@@ -46,6 +61,7 @@ class Lyrics extends Component {
   }
 
   runMutation (unique){
+
     this.props.mutation1({
       variables: {
         name: this.props.match.params.id,
@@ -68,25 +84,52 @@ class Lyrics extends Component {
   }
 
   calculateUnique() {
-
-    let cleanedUp = fun.cleaner(this.props.state.lyrics.join(' '))
-    return fun.countUnique(cleanedUp);
+    const promise = new Promise((resolve, reject)=> {
+      let cleanedUp = fun.cleaner(this.props.state.lyrics.join(' '))
+      resolve(fun.countUnique(cleanedUp))
+    })
+    return promise;
   }
 
-  popup = () => {
-
+  checkVisible(){
+    if(this.state.popup){
+      return "visible-popup";
+    }
+    else {
+      return "invisible-popup";
+    }
   }
 
-  isHighlighted() {
+  popup = (e, i) => {
+    console.log("state before", this.state);
+    console.log("i", i);
+    console.log("text", e.target.innerText);
+    this.setState({
+      popup: true,
+      lyric: e.target.innerText,
+      index: i,
+    });
+    console.log("state after", this.state);
+  }
+
+  isHighlighted(x) {
+    for (var i = 0; i < this.props.data.getSong.tags.length; i++) {
+      if(this.props.data.getSong.tags[i].index == x){
+        return "highlight"
+      }
+    }
     return "no-highlight";
   }
 
   breakUpLyrics(){
     let lines = this.props.state.lyrics;
+    // console.log("all tags", this.props.data.getSong.tags);
     if(lines){
-      return lines.map(line => {
+      return lines.map((line, i) => {
         // console.log(line);
-          return (<p onClick={this.popup} className={this.isHighlighted()}>{line}<br/></p>);
+          return (<div>
+            <p onClick={(e) => {this.popup(e, i)}} className={this.isHighlighted(i)}>{line}<br/></p>
+          </div>);
       });
     }
   }
@@ -115,12 +158,14 @@ class Lyrics extends Component {
 
     if(!this.props.data.getSong){
       let unique = this.calculateUnique()
-      console.log("unique",unique);
-      this.runMutation(unique);
+      .then(unique => {
+        this.runMutation(unique);
+      })
+      // console.log("unique",unique);
+
       return <div><img src="http://bestanimations.com/Science/Gears/loadinggears/loading-gears-animation-13-3.gif"/></div>
     }
 
-    // console.log(this.props.data);
     return (
       <div className="Lyrics">
         <div className="heading-lyrics">
@@ -128,6 +173,7 @@ class Lyrics extends Component {
           <h1 className="artist-lyrics">By: {this.props.state.selectedArtist}</h1>
           <h2 className="count-lyrics">unique word count <br/> {this.props.data.getSong.unique_words}</h2>
         </div>
+        <div className={this.checkVisible()}><Tag lyric={this.state.lyric} index={this.state.index} songId={this.props.data.getSong.id} state={this.props.state}/></div>
         <div className="the-lyrics">{this.breakUpLyrics()}</div>
         {/* <div>{this.props.state.lyrics}</div> */}
       </div>

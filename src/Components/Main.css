@@ -23,13 +23,14 @@
 }
 
 .Main-left {
-  margin: 0vh 10vw 5vh 10vw;
+  margin: 0vh 5vw 5vh 10vw;
 }
 
 .Main-right {
   flex-direction: column;
   /*align-content: flex-start;*/
   width: 500px;
+  margin-right: 50px;
 
 }
 

@@ -11,7 +11,7 @@ const searchFiller = "&page=1";
 const apiKey = "&apikey=7f3562e79563e3cca7c348708ebeb4ad";
 
 const apiKey2 = "195003";
-const artistAlbums = "https://galvanize-cors-proxy.herokuapp.com/http://www.theaudiodb.com/api/v1/json/" + apiKey2 + "/searchalbum.php?s=";
+const artistAlbums = "https://stormy-chamber-42667.herokuapp.com/http://www.theaudiodb.com/api/v1/json/" + apiKey2 + "/searchalbum.php?s=";
 // const artistAlbums = "https://api.musixmatch.com/ws/1.1/artist.albums.get?format=jsonp&callback=callback&artist_id=";
 // const albumsFiller = "&s_release_date=desc&page_size=99";
 
@@ -24,7 +24,8 @@ class App extends Component {
         username: '',
         token: '',
         pic: '',
-        entendres: 0
+        contributions: 0,
+        id: null,
       },
       isSearched: false,
       isArtists: false,
@@ -34,7 +35,7 @@ class App extends Component {
       selectArtistId: null,
       selectedArtistImg: '',
       selectedArtistBio: '',
-      albumList: [],
+      albumList: ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",],
       selectedAlbumId: null,
       // selectedAlbumImg: null,
       tracklist: [],
@@ -45,17 +46,6 @@ class App extends Component {
     }
   }
 
-  async componentDidMount() {
-
-    // let proxy = "https://galvanize-cors-proxy.herokuapp.com/";
-    // let baseURL = 'http://localhost:8082/';
-    // let baseURL = 'https://entendre.herokuapp.com/';
-    //
-    // const response = await fetch(baseURL)
-    // const json = await response.json()
-    // console.log(json);
-  }
-
   updateUserState = (data) => {
     this.setState({
       loggedIn: true,
@@ -63,10 +53,17 @@ class App extends Component {
         username: data.username,
         token: data.token,
         pic: data.pic,
-        contributions: data.contributions
+        contributions: data.contributions,
+        id: data.id
       },
       dropdown: false
     });
+  }
+
+  setSelectedArtist = (name) => {
+    this.setState({
+      selectedArtistId: name
+    })
   }
 
   setArtistId = (id) => {
@@ -122,7 +119,6 @@ class App extends Component {
       return res.text()
     }).then(data => {
       let newJson = JSON.parse(data.slice(9, data.length - 2))
-      console.log(newJson);
       let justArtists = newJson.message.body.artist_list;
       let cleanArtists = [];
       if (justArtists.length > 0) {
@@ -136,10 +132,7 @@ class App extends Component {
           }
         }
       }
-
-      console.log(cleanArtists);
       this.setState({artistList: cleanArtists})
-
       if (cleanArtists.length === 1) {
         this.setState({selectedArtist: cleanArtists[0]})
         this.singleArtist(cleanArtists[0]);
@@ -162,7 +155,9 @@ class App extends Component {
   }
 
   singleArtist(artist) {
+    console.log("before");
     fetch("https://stormy-chamber-42667.herokuapp.com/http://www.theaudiodb.com/api/v1/json/195003/search.php?s=" + artist).then(response => {
+      console.log("after");
       response.json()
       .then(info => {
         if(!info.artists){
@@ -172,7 +167,6 @@ class App extends Component {
         this.setState({selectedArtistImg: info.artists[0].strArtistThumb, selectedArtistBio: info.artists[0].strBiographyEN, noResults: false});
         fetch(artistAlbums + artist).then(res => {
           res.json().then(data => {
-            console.log("album", data);
             let cleanAlbums = [];
             if (data.album !== null) {
               for (var i = 0; i < data.album.length; i++) {
@@ -180,9 +174,7 @@ class App extends Component {
                   cleanAlbums.push({name: data.album[i].strAlbum, art: data.album[i].strAlbumThumb, idAlbum: data.album[i].idAlbum, year: data.album[i].intYearReleased, description: data.album[i].strDescriptionEN})
                 }
               }
-              console.log("clean", cleanAlbums);
               this.setState({albumList: cleanAlbums, isSearched: true});
-              // console.log(this.state.albumList);
             } else {
               console.log("No albums found for " + artist);
             }
@@ -191,10 +183,14 @@ class App extends Component {
       }
       })
     })
+    .catch(err => {
+      console.log(err);
+        // this.setState({albumList: cleanAlbums, isSearched: true});
+    })
   }
 
   searchArtists = (e) => {
-    console.log("in",this.props);
+    console.log("in",e.target);
     //Currently not working but intended to use params for when user directly inputs name into url
     if(this.props.match){
       if(this.props.match.params.path === "/albums/:id"){
@@ -242,6 +238,7 @@ class App extends Component {
           setAlbumId={this.setAlbumId}
           setTracklist={this.setTracklist}
           setLyrics={this.setLyrics}
+          setSelectedArtist={this.setSelectedArtist}
         />
       </div>
 

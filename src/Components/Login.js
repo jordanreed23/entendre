@@ -10,7 +10,7 @@ import './Login.css';
 const testing = true;
 
 const query = gql `
-  query logUser($username: String, $token: String!){
+  query loginUser($username: String, $token: String!){
   loginUser(username: $username, token: $token){
     username
     id
@@ -56,7 +56,11 @@ class Login extends Component {
           token: this.props.state.user.token
         }
       }).then(data => {
-        console.log("refetch");
+        if(data){
+          postData.id = data.loginUser.id
+          this.props.updateUserState(postData)
+          console.log("refetch");
+        }
       })
 
       if (this.props.data.loginUser == null) {
@@ -67,6 +71,8 @@ class Login extends Component {
             pic: this.props.state.user.pic
           }
         }).then(res => {
+          postData.id = res.newUser.id;
+          this.props.updateUserState(postData)
           console.log("new user created");
         })
       } else {
@@ -78,12 +84,11 @@ class Login extends Component {
 
     async testLoginQl() {
       let postData = {
-        username: 'Jordoon Reed',
-        token: '126399',
+        username: 'Jordan Reed',
+        token: '126388',
         pic: 'http://profile.actionsprout.com/default.jpeg',
-        contributions: 0
+        contributions: 0,
       }
-
       await this.props.updateUserState(postData)
       await this.props.data.refetch({
         variables: {
@@ -91,7 +96,12 @@ class Login extends Component {
           token: this.props.state.user.token
         }
       }).then(data => {
-        console.log("refetch");
+        if(data.loginUser){
+          console.log(data);
+          postData.id = data.loginUser.id
+          this.props.updateUserState(postData)
+          console.log("refetch");
+        }
       })
 
       if (this.props.data.loginUser == null) {
@@ -102,6 +112,8 @@ class Login extends Component {
             pic: this.props.state.user.pic
           }
         }).then(res => {
+          postData.id = res.newUser.id;
+          this.props.updateUserState(postData)
           console.log("new user created");
         })
       } else {

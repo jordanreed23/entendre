@@ -34,6 +34,9 @@ import {Link} from 'react-router-dom'
 
 class Selection extends Component {
   checkIfWords(){
+    if(this.props.words){
+      return `${this.props.words}`
+    }
     if(this.props.music.vocab !== undefined){
       return `${this.props.music.vocab}`
     } else if(this.props.music.unique_words !== undefined){
@@ -59,7 +62,6 @@ class Selection extends Component {
   }
 
   checkIfTracks(){
-    console.log(this.props.music);
     if(this.props.tracks){
       return
     }else{
@@ -74,7 +76,12 @@ class Selection extends Component {
       return "selection-name"
     }
   }
-  // if()
+
+  searchIfRanked = (e) => {
+    console.log("this", this);
+    // e.preventDefault();
+    this.props.setSelectedArtist(this.props.music.name)
+  }
 
   render() {
     // let {data} = this.props;
@@ -85,7 +92,9 @@ class Selection extends Component {
     // }
 
     return (
-      <div className="Selection">
+      <div className="Selection"
+        // onClick={this.searchIfRanked}
+        >
         {this.checkIfRank()}
         {this.checkIfTracks()}
         <div className="selection-info">

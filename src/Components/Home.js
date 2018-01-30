@@ -81,7 +81,9 @@ class Home extends Component {
           <h1 className="wordsmiths vocabulary">VOCABULARY</h1>
         </div>
           {topArtists.map((x, i) => {
-            return <Link  className="selection-links" to={`/albums/${x.name}`}><Selection music={x} rank={i + 1}/></Link>
+            return <Link  className="selection-links" to={`/albums/${x.name}`}><Selection
+               setSelectedArtist={this.props.setSelectedArtist} state={this.props.state}
+               music={x} key={i} rank={i + 1}/></Link>
           })}
       </div>
     )

@@ -27,7 +27,7 @@
 
 .list{
   height: 90vh;
-  overflow: scroll;
+  /*overflow: scroll;*/
 }
 
 .img-heading {
