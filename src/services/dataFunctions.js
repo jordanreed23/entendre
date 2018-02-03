@@ -4,7 +4,7 @@ function cleaner(lyrics){
 }
 
 function countUnique(lyrics){
-  let limit = 40000;
+  let limit = 35000;
   let count = 0;
   let uniqueStr = ''
   let loops = 0;

@@ -97,7 +97,6 @@ class Tag extends Component {
               <select name="device" className="select-box">
                 <option value="double entendre">double entendre</option>
                 <option value="pun">pun</option>
-                <option value="homophone">homophone</option>
                 <option value="metaphor">metaphor</option>
                 <option value="allusion">allusion</option>
                 <option value="homophone">homophone</option>

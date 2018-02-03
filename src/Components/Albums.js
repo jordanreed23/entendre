@@ -148,6 +148,7 @@ class Albums extends Component {
           <h1 className="name-heading">{this.props.state.selectedArtist}</h1>
           <h2 className="count-unique">VOCABULARY <br/>
           {this.checkTotalUnique()}</h2>
+          {/* <button className="unique-button" onClick={this.calculate}>Calculate Vocabulary</button> */}
         </div>
         <h1 className="list-heading">AVAILABLE ALBUMS</h1>
         <div className="list">
