@@ -12,7 +12,8 @@ import {ApolloProvider} from 'react-apollo';
 import registerServiceWorker from './registerServiceWorker';
 
 const client = new ApolloClient({
-  link: createHttpLink({uri: 'http://localhost:8081/graphql'}),
+  // link: createHttpLink({uri: 'http://localhost:8081/graphql'}),
+  link: createHttpLink({uri: 'https://stormy-chamber-42667.herokuapp.com/https://api-entendre.herokuapp.com/graphql'}),
   cache: new InMemoryCache()
 });
 
